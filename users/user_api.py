@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from users import LoginUserValidator, RegisterUserValidator, EditUserValidator
 
-from database.userservice import login_user_db, register_user_db, edit_user_db, delete_user_db
+from database.userservice import login_user_db, register_user_db, edit_user_db, delete_user_db, get_exact_user_db
 
 user_router = APIRouter(prefix='/user', tags=['Управление пользователями'])
 
@@ -22,6 +22,16 @@ async def register_user(data: RegisterUserValidator):
         return {'message': result}
     else:
         return {'message': 'Пользователь с этой почтой имеется'}
+
+
+@user_router.get('/info')
+async def get_user(user_id: int):
+    result = get_exact_user_db(user_id)
+
+    if result:
+        return {'message': result}
+    else:
+        return {'message': 'Такого пользователя нету'}
 
 
 @user_router.put('/edit')

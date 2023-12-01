@@ -16,6 +16,14 @@ def add_health_info_db(user_id, weight, height, gender, pulse):
     return "Данные успешно добавлены"
 
 
+def get_health_info_db(user_id):
+    db = next(get_db())
+
+    exact_health = db.query(UserHealthData).filter_by(id=user_id).first()
+
+    return exact_health
+
+
 def edit_health_info_db(user_id, edit_data, new_data):
     db = next(get_db())
 

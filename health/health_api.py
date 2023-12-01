@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from health import UsersHealthValidator, EditHealthRecordValidator
 
-from database.healthservice import add_health_info_db, edit_health_info_db, delete_health_info_db
+from database.healthservice import add_health_info_db, edit_health_info_db, delete_health_info_db, get_health_info_db
 
 health_router = APIRouter(prefix='/user_health', tags=['Данные о здоровье пользователей'])
 
@@ -13,6 +13,15 @@ async def add_health(data: UsersHealthValidator):
 
     return {'message': result}
 
+
+@health_router.get('/get_health')
+async def get_health(user_id: int):
+    result = get_health_info_db(user_id)
+
+    if result:
+        return {'message': result}
+    else:
+        return {'message': 'Таких данных нет'}
 
 @health_router.put('/edit_health')
 async def edit_health(data: EditHealthRecordValidator):

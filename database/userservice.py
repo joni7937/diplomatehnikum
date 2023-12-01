@@ -52,6 +52,14 @@ def edit_user_db(id, edit_data, new_data):
         return 'Пользователь не найден'
 
 
+def get_exact_user_db(id):
+    db = next(get_db())
+
+    exact_user = db.query(User).filter_by(id=id).first()
+
+    return exact_user
+
+
 def delete_user_db(id):
     db = next(get_db())
 
